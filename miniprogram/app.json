@@ -1,0 +1,13 @@
+{
+    "pages": ["pages/index/index"],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#f3514f",
+        "navigationBarTitleText": "活动中心",
+        "navigationBarTextStyle": "white"
+    },
+    "style": "v2",
+    "componentFramework": "glass-easel",
+    "lazyCodeLoading": "requiredComponents",
+    "subPackages": []
+}

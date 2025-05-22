@@ -1,0 +1,14 @@
+{
+    "name": "miniprogram-ts-quickstart",
+    "version": "1.0.0",
+    "description": "",
+    "main": ".eslintrc.js",
+    "scripts": {},
+    "keywords": [],
+    "author": "",
+    "license": "",
+    "dependencies": {},
+    "devDependencies": {
+        "miniprogram-api-typings": "^2.8.3-1"
+    }
+}

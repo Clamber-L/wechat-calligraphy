@@ -1,0 +1,45 @@
+<scroll-view scroll-y style="height: 100vh" class="container">
+    <view class="header-container">
+        <view class="header-item">已报名人数:12人</view>
+        <view class="header-item">已报名人数:13人</view>
+        <view class="header-item">已报名人数:23人</view>
+    </view>
+    <image
+        src="https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/1.png"
+        mode="widthFix"
+        class="poster-img"
+    />
+    <!-- 头像滚动区 -->
+    <scroll-view scroll-y scroll-with-animation style="height: 200px" scroll-into-view="{{scrollTarget}}">
+        <view wx:for="{{userList}}" wx:key="index" id="user-{{index}}" class="user-item">
+            <!-- <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill" /> -->
+            <text class="nickname">{{item.name}}</text>
+        </view>
+    </scroll-view>
+    <!-- 订单滚动区 -->
+    <view class="order-scroll-box">
+        <view class="order-scroll-content" animation="{{orderAnimation}}">
+            <block wx:for="{{orderList}}" wx:key="index">
+                <view class="order-item">
+                    <text class="name">{{item.name}}</text>
+                    <text class="phone">{{item.phone}}</text>
+                    <text class="price">已支付{{item.price}}元</text>
+                </view>
+            </block>
+        </view>
+    </view>
+    <image
+        src="https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/2.png"
+        mode="widthFix"
+        class="poster-img"
+    />
+    <image
+        src="https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/3.png"
+        mode="widthFix"
+        class="poster-img"
+    />
+    <view class="bottom-container">
+        <view class="bottom-button contact-button">联系客服</view>
+        <view class="bottom-button signup-button">我要当团长</view>
+    </view>
+</scroll-view>
