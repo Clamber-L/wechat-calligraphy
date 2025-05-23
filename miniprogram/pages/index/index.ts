@@ -25,7 +25,7 @@ Component({
         onLoad: function () {
             const users = Array.from({ length: 40 }, (_, i) => ({
                 name: `用户${i + 1}`,
-                avatarUrl: '/images/avatar.png' // 替换成你实际头像地址
+                avatarUrl: '/assets/avatar.png' // 替换成你实际头像地址
             }))
 
             this.setData({ userList: users })
@@ -45,7 +45,7 @@ Component({
             this.startGroupedScroll()
         },
         startAutoScroll() {
-            const interval = 3000 // 每3秒滚动
+            const interval = 2000 // 每2秒滚动
             this.data.scrollTimer = setInterval(() => {
                 const total = this.data.userList.length
                 const itemsPerRow = 4

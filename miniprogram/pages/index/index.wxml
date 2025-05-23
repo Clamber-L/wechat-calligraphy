@@ -10,12 +10,14 @@
         class="poster-img"
     />
     <!-- 头像滚动区 -->
-    <scroll-view scroll-y scroll-with-animation style="height: 200px" scroll-into-view="{{scrollTarget}}">
-        <view wx:for="{{userList}}" wx:key="index" id="user-{{index}}" class="user-item">
-            <!-- <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill" /> -->
-            <text class="nickname">{{item.name}}</text>
-        </view>
-    </scroll-view>
+    <view class="avatar-scroll">
+        <scroll-view scroll-y scroll-with-animation style="height: 200px" scroll-into-view="{{scrollTarget}}">
+            <view wx:for="{{userList}}" wx:key="index" id="user-{{index}}" class="user-item">
+                <image class="avatar" src="{{item.avatarUrl}}" mode="aspectFill" />
+                <text class="nickname">{{item.name}}</text>
+            </view>
+        </scroll-view>
+    </view>
     <!-- 订单滚动区 -->
     <view class="order-scroll-box">
         <view class="order-scroll-content" animation="{{orderAnimation}}">
