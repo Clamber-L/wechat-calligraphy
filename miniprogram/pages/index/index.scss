@@ -30,89 +30,61 @@
     }
 
     // 头像滚动区
-    .avatar-scroll {
+    .avatar-view {
         position: relative;
-        z-index: -1;
-        .user-item {
-            width: 25%; /* 每行4个 */
-            float: left;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-bottom: 10px;
+        .swiper {
+            height: 200rpx;
+            overflow: hidden;
         }
-
-        .avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-
-        .nickname {
-            font-size: 12px;
-            margin-top: 4px;
-        }
-    }
-
-    // 订单滚动区
-    .order-scroll-box {
-        height: 160px; /* 40px x 5 条 */
-        overflow: hidden;
-        position: relative;
-        background-color: #fff;
-        z-index: -1;
-
-        .order-scroll-content {
-            position: absolute;
-            top: 0;
+        .swiper-item {
+            overflow: hidden;
+            height: 100%;
             width: 100%;
-        }
-
-        .order-item {
-            height: 40px;
+            border-radius: 16rpx;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 0 10px;
-            font-size: 12px;
-            border-bottom: 1px solid #eee;
-        }
+            gap: 20px;
 
-        .name,
-        .phone,
-        .price {
-            flex: 1;
-            text-align: center;
+            .image-item {
+                width: 50px;
+                height: 50px;
+            }
+            .user-item {
+                background-color: #fff;
+            }
         }
     }
-
     // 底部区域
     .bottom-container {
         position: fixed;
-        bottom: 10px;
-        width: 100%;
+        bottom: 15px;
+        right: 5px;
+        left: 5px;
         height: 45px;
         display: flex;
-        flex-direction: row;
-        gap: 5px;
-    }
+        .contact-button {
+            font-weight: normal;
+            color: white;
+            font-size: 15px;
+            border-radius: 12px;
+            width: 30%;
+            background-color: #ff6600; /* 橙色按钮，可换成你想要的 */
+            height: 45px;
+            line-height: 45px; /* 与高度一致 */
+            padding: 0; /* 移除默认 padding */
+        }
 
-    .bottom-button {
-        height: 100%;
-        color: white;
-        text-align: center;
-        line-height: 50px;
-        font-size: 16px;
-        border-radius: 12px;
-    }
-
-    .contact-button {
-        width: 33.33%;
-        background-color: #ff6600; /* 橙色按钮，可换成你想要的 */
-    }
-
-    .signup-button {
-        width: 66.66%;
-        background-color: #008000; /* 绿色按钮，表示主操作 */
+        .signup-button {
+            color: white;
+            border-radius: 12px;
+            font-weight: normal;
+            height: 100%;
+            width: 66.66%;
+            background-color: #008000; /* 绿色按钮，表示主操作 */
+            height: 45px;
+            line-height: 45px; /* 与高度一致 */
+            padding: 0; /* 移除默认 padding */
+        }
     }
 }
