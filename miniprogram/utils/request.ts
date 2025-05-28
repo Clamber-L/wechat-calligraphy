@@ -46,5 +46,5 @@ class WxRequest {
 }
 
 export const instance = new WxRequest({
-    baseURL: 'https://console.sdhis999.com/wx/'
+    baseURL: 'http://127.0.0.1:8888/applet/'
 })

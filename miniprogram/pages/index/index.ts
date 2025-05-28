@@ -1,8 +1,9 @@
 // index.ts
-// 获取应用实例
-const app = getApp<IAppOption>()
-const defaultAvatarUrl =
-    'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
+
+import { UserInfo } from '../../types'
+import { toast } from '../../utils/extendApi'
+import { instance } from '../../utils/request'
+import { getStorageSync } from '../../utils/storage'
 
 interface User {
     name: string
@@ -12,7 +13,8 @@ interface User {
 Component({
     data: {
         userList: [{}], // 用户头像列表
-        orderList: [{}]
+        orderList: [{}],
+        canIUse: wx.canIUse('button.open-type.getUserInfo')
     },
     methods: {
         onLoad: function () {
@@ -59,6 +61,34 @@ Component({
                 query: 'id=1',
                 imageUrl: '../../assets/avatar.png'
             }
+        },
+
+        async checkLoginAndTeam() {
+            if (wx.canIUse('button.open-type.getUserInfo')) {
+                toast({
+                    title: '请升级微信版本!'
+                })
+            }
+            const timestamp = Math.floor(new Date().getTime() / 1000)
+
+            const userInfo = getStorageSync('userInfo')
+            console.log(userInfo)
+
+            if (userInfo && userInfo != null) {
+                const user: UserInfo = JSON.parse(userInfo as string)
+            } else {
+                wx.login({
+                    success: async (res) => {
+                        console.log('code:' + res.code)
+                        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                        // const apiRes = await instance.post('login', {
+                        //     code: res.code
+                        // })
+                    }
+                })
+            }
+
+            console.log('当前时间戳为：' + timestamp)
         }
     }
 })
