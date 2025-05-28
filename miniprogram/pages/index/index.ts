@@ -64,26 +64,40 @@ Component({
         },
 
         async checkLoginAndTeam() {
-            if (wx.canIUse('button.open-type.getUserInfo')) {
+            if (!wx.canIUse('button.open-type.getUserInfo')) {
                 toast({
                     title: '请升级微信版本!'
                 })
             }
             const timestamp = Math.floor(new Date().getTime() / 1000)
 
-            const userInfo = getStorageSync('userInfo')
-            console.log(userInfo)
+            const localUserInfo = getStorageSync('userInfo')
+            console.log(localUserInfo)
 
-            if (userInfo && userInfo != null) {
-                const user: UserInfo = JSON.parse(userInfo as string)
+            if (localUserInfo && localUserInfo != null) {
+                const user: UserInfo = JSON.parse(localUserInfo as string)
             } else {
-                wx.login({
-                    success: async (res) => {
-                        console.log('code:' + res.code)
-                        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                        // const apiRes = await instance.post('login', {
-                        //     code: res.code
-                        // })
+                wx.getUserProfile({
+                    desc: '获取你的用户信息',
+                    success: function (res) {
+                        var userInfo = res.userInfo
+                        // var nickName = userInfo.nickName
+                        // var avatarUrl = userInfo.avatarUrl
+                        // var gender = userInfo.gender //性别 0：未知、1：男、2：女
+                        // var province = userInfo.province
+                        // var city = userInfo.city
+                        // var country = userInfo.country
+                        console.log('userInfo:', userInfo)
+
+                        wx.login({
+                            success: async (res) => {
+                                console.log('code:' + res.code)
+                                // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                                // const apiRes = await instance.post('login', {
+                                //     code: res.code
+                                // })
+                            }
+                        })
                     }
                 })
             }
