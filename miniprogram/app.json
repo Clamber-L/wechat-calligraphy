@@ -6,6 +6,26 @@
         "navigationBarTitleText": "活动中心",
         "navigationBarTextStyle": "white"
     },
+    "tabBar": {
+        "color": "#252933",
+        "selectedColor": "#FF734C",
+        "backgroundColor": "#ffffff",
+        "borderStyle": "black",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "assets/index.png",
+                "selectedIconPath": "assets/index-active.png"
+            },
+            {
+                "pagePath": "pages/my/my",
+                "text": "我的",
+                "iconPath": "assets/my.png",
+                "selectedIconPath": "assets/my-active.png"
+            }
+        ]
+    },
     "style": "v2",
     "componentFramework": "glass-easel",
     "lazyCodeLoading": "requiredComponents",
