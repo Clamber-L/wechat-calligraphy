@@ -1,66 +1,49 @@
-// index.ts
+Page({
+    /**
+     * 页面的初始数据
+     */
+    data: {},
 
-import { UserInfo } from '../../types'
-import { toast } from '../../utils/extendApi'
-import { instance } from '../../utils/request'
-import { getStorageSync } from '../../utils/storage'
+    /**
+     * 生命周期函数--监听页面加载
+     */
+    onLoad() {},
 
-interface User {
-    name: string
-    avatarUrl: string
-}
+    /**
+     * 生命周期函数--监听页面初次渲染完成
+     */
+    onReady() {},
 
-Component({
-    data: {
-        userList: [{}], // 用户头像列表
-        orderList: [{}],
-        canIUse: wx.canIUse('button.open-type.getUserInfo')
-    },
-    methods: {
-        onLoad: function () {
-            const users = Array.from({ length: 40 }, (_, i) => ({
-                name: `用户${i + 1}`,
-                avatarUrl: '/assets/avatar.png' // 替换成你实际头像地址
-            }))
+    /**
+     * 生命周期函数--监听页面显示
+     */
+    onShow() {},
 
-            this.setData({ userList: users })
+    /**
+     * 生命周期函数--监听页面隐藏
+     */
+    onHide() {},
 
-            const orders = Array.from({ length: 20 }, (_, i) => ({
-                name: `用户${i + 1}`,
-                phone: `18****${1000 + i}`,
-                price: '198.00'
-            }))
+    /**
+     * 生命周期函数--监听页面卸载
+     */
+    onUnload() {},
 
-            this.setData({
-                orderList: orders
-            })
-        },
+    /**
+     * 页面相关事件处理函数--监听用户下拉动作
+     */
+    onPullDownRefresh() {},
 
-        onUnload() {
-            clearInterval(this.data.scrollTimer), clearInterval(this.data.orderTimer)
-        },
+    /**
+     * 页面上拉触底事件的处理函数
+     */
+    onReachBottom() {},
 
-        /**
-         * 用户点击右上角分享
-         */
-        onShareAppMessage(obj: any) {
-            console.log(obj)
-            return {
-                title: '赶紧买课，早买早享受，晚买享折扣',
-                imageUrl: '../../assets/avatar.png',
-                path: '/pages/index/index'
-            }
-        },
-
-        /**
-         * 分享到朋友圈
-         */
-        onShareTimeline() {
-            return {
-                title: '帮我砍一刀',
-                query: 'id=1',
-                imageUrl: '../../assets/avatar.png'
-            }
-        }
+    /**
+     * 用户点击右上角分享
+     */
+    onShareAppMessage(opts): WechatMiniprogram.Page.ICustomShareContent {
+        console.log(opts.target)
+        return {}
     }
 })

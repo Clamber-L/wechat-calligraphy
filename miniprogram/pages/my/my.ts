@@ -1,6 +1,7 @@
 import { UserInfo } from '../../types'
 import { toast } from '../../utils/extendApi'
 import { getStorageSync } from '../../utils/storage'
+import { instance } from '../../utils/request'
 
 // pages/my/my.ts
 Page({
@@ -71,58 +72,42 @@ Page({
     toLoginPage() {
         wx.navigateTo({
             url: '/pages/login/login'
-        })
+        }).then()
     },
 
     onChooseAvatar() {
         const localUserInfo = getStorageSync('userInfo')
         console.log(localUserInfo)
 
-        if (localUserInfo && localUserInfo != null) {
+        if (localUserInfo) {
             const user: UserInfo = JSON.parse(localUserInfo as string)
         } else {
             toast({ title: '请先授权登陆' })
         }
     },
-    async checkLogin() {
+    checkLogin() {
         if (!wx.canIUse('button.open-type.getUserInfo')) {
             toast({
                 title: '请升级微信版本!'
             })
         }
-        const timestamp = Math.floor(new Date().getTime() / 1000)
-
-        const localUserInfo = getStorageSync('userInfo')
-        console.log(localUserInfo)
-
-        if (localUserInfo && localUserInfo != null) {
-            const user: UserInfo = JSON.parse(localUserInfo as string)
-        } else {
-            wx.getUserProfile({
-                desc: '获取你的用户信息',
-                success: function (res) {
-                    var userInfo = res.userInfo
-                    // var nickName = userInfo.nickName
-                    // var avatarUrl = userInfo.avatarUrl
-                    // var gender = userInfo.gender //性别 0：未知、1：男、2：女
-                    // var province = userInfo.province
-                    // var city = userInfo.city
-                    // var country = userInfo.country
-                    console.log('userInfo:', userInfo)
-
-                    wx.login({
-                        success: async (res) => {
-                            console.log('code:' + res.code)
-                            // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                            // const apiRes = await instance.post('login', {
-                            //     code: res.code
-                            // })
-                        }
-                    })
-                }
-            })
-        }
-
-        console.log('当前时间戳为：' + timestamp)
+        wx.navigateTo({
+            url: '/pages/user/user'
+        })
+        // 直接登录
+        // wx.login({
+        //     success: async (res) => {
+        //         console.log('code:' + res.code)
+        //         await wx.showLoading({
+        //             title: "数据加载中...",
+        //             mask: true,
+        //         })
+        //         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        //         const apiRes = await instance.post('login', {
+        //             code: res.code
+        //         })
+        //         await wx.hideLoading({})
+        //     }
+        // })
     }
 })

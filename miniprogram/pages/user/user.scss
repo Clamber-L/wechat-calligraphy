@@ -1,0 +1,92 @@
+.user-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40rpx;
+    box-sizing: border-box;
+    background-color: #f8f8f8;
+}
+
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 120rpx;
+}
+
+.avatar-image {
+    width: 160rpx;
+    height: 160rpx;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #e0e0e0;
+}
+
+.change-avatar-button {
+    margin-top: 50rpx;
+    font-size: 26rpx;
+    color: #007aff;
+    background-color: #ffffff;
+    border: 1px solid #007aff;
+    border-radius: 8rpx;
+    padding: 10rpx 20rpx;
+    line-height: normal;
+}
+
+.form-section {
+    width: 100%;
+    max-width: 600rpx;
+    display: flex;
+    flex-direction: column;
+    gap: 40rpx;
+    margin-bottom: 60rpx;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: 28rpx;
+    color: #333;
+    margin-bottom: 10rpx;
+}
+
+.input-underline {
+    font-size: 28rpx;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    background-color: transparent;
+    padding: 10rpx 0;
+}
+
+.input-underline:focus {
+    border-bottom: 2px solid #007aff;
+}
+
+.readonly-text {
+    font-size: 28rpx;
+    color: #666;
+    padding: 10rpx 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+.submit-button {
+    width: 100%;
+    max-width: 600rpx;
+    height: 88rpx;
+    background-color: #007aff;
+    color: #fff;
+    font-size: 30rpx;
+    border-radius: 12rpx;
+    border: none;
+
+    /* ✅ 关键：添加 Flex 居中 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

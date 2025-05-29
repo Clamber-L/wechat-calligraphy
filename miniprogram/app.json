@@ -1,9 +1,9 @@
 {
-    "pages": ["pages/index/index", "pages/my/my"],
+    "pages": ["pages/index/index", "pages/my/my", "pages/user/user", "pages/group-buy/group-buy.wxml"],
     "window": {
         "backgroundTextStyle": "light",
         "navigationBarBackgroundColor": "#f3514f",
-        "navigationBarTitleText": "活动中心",
+        "navigationBarTitleText": "书法",
         "navigationBarTextStyle": "white"
     },
     "tabBar": {
@@ -34,9 +34,6 @@
     "permission": {
         "scope.userLocation": {
             "desc": "你的位置信息将用于小程序位置接口的效果展示"
-        },
-        "scope.userInfo": {
-            "desc": "你的小程序需要获取用户的个人信息，以便提供更好的服务"
         }
     }
 }

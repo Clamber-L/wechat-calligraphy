@@ -8,7 +8,7 @@
         <!-- 未登录面板 -->
         <view class="user-container section" bindtap="toLoginPage">
             <view class="avatar-container">
-                <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+                <button class="avatar-wrapper">
                     <image src="/assets/avatar.png"></image>
                 </button>
                 <view class="no-login">
