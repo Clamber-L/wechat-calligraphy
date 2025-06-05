@@ -1,7 +1,7 @@
-import { UserInfo } from '../../types'
 import { toast } from '../../utils/extendApi'
 import { getStorageSync } from '../../utils/storage'
 import { instance } from '../../utils/request'
+import { UserInfo } from '../../types'
 
 // pages/my/my.ts
 Page({
@@ -86,23 +86,25 @@ Page({
                 title: '请升级微信版本!'
             })
         }
-        wx.navigateTo({
-            url: '/pages/user/user'
-        })
-        // 直接登录
-        // wx.login({
-        //     success: async (res) => {
-        //         console.log('code:' + res.code)
-        //         await wx.showLoading({
-        //             title: "数据加载中...",
-        //             mask: true,
-        //         })
-        //         // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        //         const apiRes = await instance.post('login', {
-        //             code: res.code
-        //         })
-        //         await wx.hideLoading({})
-        //     }
+        // wx.navigateTo({
+        //     url: '/pages/user/user'
         // })
+        // 直接登录
+        wx.login({
+            success: async (res) => {
+                console.log('code:' + res.code)
+                await wx.showLoading({
+                    title: '数据加载中...',
+                    mask: true
+                })
+                // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                const apiRes = await instance.post('login', {
+                    code: res.code
+                })
+                console.log('api res:', apiRes)
+
+                await wx.hideLoading({})
+            }
+        })
     }
 })
