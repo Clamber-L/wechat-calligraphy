@@ -1,0 +1,111 @@
+.index-container {
+    position: relative;
+
+    // 首页背景图
+    .window-bgc {
+        height: 200rpx;
+        position: absolute;
+        width: 100%;
+        background-color: #f3514f;
+        border-radius: 0 0 20rpx 20rpx;
+    }
+
+    .section-title {
+        margin: 40rpx 20rpx 20rpx;
+        font-size: 32rpx;
+        font-weight: bold;
+        color: #333;
+        border-left: 10rpx solid #ff6a00;
+        padding-left: 20rpx;
+    }
+
+    .practice-list {
+        padding: 10rpx;
+    }
+
+    .practice-item {
+        margin-bottom: 30rpx;
+        background: #ffffff;
+        border-radius: 20rpx;
+        box-shadow: 0 0 10rpx rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .practice-image {
+        width: 100%;
+        height: 300rpx;
+        border-radius: 20rpx 20rpx 0 0;
+    }
+
+    .practice-info {
+        padding: 20rpx;
+    }
+
+    .practice-date {
+        font-size: 24rpx;
+        color: #999;
+        margin-bottom: 10rpx;
+    }
+
+    .practice-desc {
+        font-size: 28rpx;
+        color: #333;
+    }
+
+    .popup-mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.6);
+        z-index: 999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .popup-content {
+        background-color: #fff;
+        border-radius: 20rpx;
+        width: 600rpx;
+        padding: 30rpx;
+        box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.1);
+        text-align: center;
+        position: relative;
+    }
+
+    .popup-image {
+        width: 100%;
+        border-radius: 16rpx;
+        margin-top: 20px;
+        margin-bottom: 20rpx;
+    }
+
+    .popup-text {
+        font-size: 28rpx;
+        color: #333;
+        margin-bottom: 20rpx;
+    }
+
+    .popup-close {
+        background-color: #ff6a00;
+        color: white;
+        font-size: 28rpx;
+        border-radius: 10rpx;
+        padding: 10rpx 30rpx;
+    }
+    .popup-close-icon {
+        position: absolute;
+        top: 10rpx;
+        right: 10rpx;
+        color: #999;
+        z-index: 1001;
+        padding: 10rpx;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        line-height: 1;
+        color: black;
+        font-size: 40rpx;
+    }
+}

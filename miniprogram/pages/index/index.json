@@ -1,0 +1,6 @@
+{
+    "usingComponents": {
+        "banner": "./banner/banner"
+    },
+    "navigationBarTitleText": "书法"
+}

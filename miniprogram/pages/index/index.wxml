@@ -1,0 +1,41 @@
+<view class="index-container">
+    <!--首页背景图-->
+    <view class="window-bgc"></view>
+
+    <!-- 页面主体区域 -->
+    <view class="container">
+        <!-- 轮播图区域 -->
+        <banner />
+
+        <!-- 分隔标题区域 -->
+        <view class="section-title"> 每日练字分享 </view>
+        <!-- 练字列表区域 -->
+        <view class="practice-list">
+            <view class="practice-item" wx:for="{{practiceList}}" wx:key="index">
+                <image
+                    class="practice-image"
+                    src="{{item.image}}"
+                    mode="aspectFill"
+                    bindtap="previewImage"
+                    data-url="{{item.image}}"
+                />
+                <view class="practice-info">
+                    <view class="practice-date">{{item.date}}</view>
+                    <view class="practice-desc">{{item.desc}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+
+    <!-- 活动弹窗 -->
+    <view wx:if="{{showPopup}}" class="popup-mask">
+        <view class="popup-content">
+            <!-- 右上角关闭按钮 -->
+            <view class="popup-close-icon" bindtap="closePopup">×</view>
+
+            <image src="{{popupData.image}}" class="popup-image" mode="widthFix" bindtap="goToActivity" />
+            <view class="popup-text">{{popupData.desc}}</view>
+            <button class="popup-close" bindtap="goToActivity">立即查看</button>
+        </view>
+    </view>
+</view>

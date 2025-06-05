@@ -1,0 +1,92 @@
+.container {
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+
+    .poster-img {
+        width: 100%; /* 宽度适应屏幕 */
+    }
+
+    .header-container {
+        position: fixed;
+        width: 100%;
+        height: 25px;
+        background-color: gray;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .header-item {
+            width: 33.33%;
+            border-right: 1px solid blue;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 400;
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+
+    // 头像滚动区
+    .avatar-view {
+        position: relative;
+        background-color: antiquewhite;
+        margin-bottom: 12rpx;
+        .swiper {
+            height: 200rpx;
+            overflow: hidden;
+        }
+        .swiper-item {
+            overflow: hidden;
+            height: 100%;
+            width: 100%;
+            border-radius: 16rpx;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+
+            .image-item {
+                width: 50px;
+                height: 50px;
+            }
+            .user-item {
+                background-color: #fff;
+            }
+        }
+    }
+    // 底部区域
+    .bottom-container {
+        position: fixed;
+        bottom: 15px;
+        right: 5px;
+        left: 5px;
+        height: 45px;
+        display: flex;
+        .contact-button {
+            font-weight: normal;
+            color: white;
+            font-size: 15px;
+            border-radius: 12px;
+            width: 30%;
+            background-color: #ff6600; /* 橙色按钮，可换成你想要的 */
+            height: 45px;
+            line-height: 45px; /* 与高度一致 */
+            padding: 0; /* 移除默认 padding */
+        }
+
+        .signup-button {
+            color: white;
+            border-radius: 12px;
+            font-weight: normal;
+            height: 100%;
+            width: 66.66%;
+            background-color: #008000; /* 绿色按钮，表示主操作 */
+            height: 45px;
+            line-height: 45px; /* 与高度一致 */
+            padding: 0; /* 移除默认 padding */
+        }
+    }
+}
