@@ -52,7 +52,8 @@
                 font-size: 24rpx;
 
                 text:first-child {
-                    font-size: 28rpx;
+                    font-size: 32rpx;
+                    color: black;
                 }
 
                 .ellipsis {
@@ -67,6 +68,11 @@
                     background-color: #fff;
                 }
             }
+        }
+
+        .setting {
+            margin-right: 10rpx;
+            font-size: 28rpx;
         }
     }
 

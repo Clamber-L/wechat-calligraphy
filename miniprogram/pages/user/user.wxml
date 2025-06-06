@@ -1,18 +1,26 @@
 <view class="user-container">
     <view class="avatar-section">
-        <image class="avatar-image" src="/assets/avatar.png" mode="aspectFill" />
-        <button class="change-avatar-button" open-type="chooseAvatar">修改头像</button>
+        <image class="avatar-image" src="{{userInfo.avatar}}" mode="aspectFill" />
+        <button class="change-avatar-button" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+            修改头像
+        </button>
     </view>
 
     <view class="form-section">
         <view class="form-item">
             <text class="label">用户名</text>
-            <input class="input-underline" type="text" placeholder="请输入用户名" />
+            <input
+                class="input-underline"
+                type="nickname"
+                bindchange="onInput"
+                value="{{userInfo.username}}"
+                placeholder="{{userInfo.username}}"
+            />
         </view>
 
         <view class="form-item">
             <text class="label">手机号码</text>
-            <text class="readonly-text">138****8888</text>
+            <text class="readonly-text">{{userInfo.phone}}</text>
         </view>
     </view>
 

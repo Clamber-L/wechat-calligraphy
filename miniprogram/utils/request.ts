@@ -1,4 +1,6 @@
-class WxRequest {
+import { BaseResult } from '../types'
+
+export class WxRequest {
     defaults = {
         baseURL: '', // 请求基准地址
         url: '', // 接口的请求路径
@@ -12,6 +14,12 @@ class WxRequest {
         isLoading: true // 控制是否使用默认的 loading，默认值是 true 表示使用默认的 loading
     }
 
+    // 拦截器
+    interceptors = {
+        request: (config: any) => config,
+        response: (response: any) => response
+    }
+
     constructor(params = {}) {
         this.defaults = {
             ...this.defaults,
@@ -19,32 +27,52 @@ class WxRequest {
         }
     }
 
-    request(options: any) {
+    request<T = any>(options: any): Promise<BaseResult<T>> {
         options.url = this.defaults.baseURL + options.url
         options = { ...this.defaults, ...options }
 
+        options = this.interceptors.request(options)
+
         return new Promise((resolve, reject) => {
-            wx.request({
-                ...options,
-                success: (result) => {
-                    resolve(result)
-                },
-                fail: (result) => {
-                    reject(result)
+            if (options.method === 'UPLOAD') {
+                if (options.method === 'UPLOAD') {
+                    wx.uploadFile({
+                        ...options,
+                        success: (result) => {
+                            const res = (result.data as unknown) as BaseResult<T>
+                            console.log('res:', res)
+                            resolve(this.interceptors.response(res))
+                        },
+                        fail: (result) => {
+                            console.log('reject upload')
+                            reject(result)
+                        }
+                    })
                 }
-            })
+            } else {
+                wx.request({
+                    ...options,
+                    success: (result) => {
+                        const res = (result.data as unknown) as BaseResult<T>
+                        resolve(this.interceptors.response(res))
+                    },
+                    fail: (result) => {
+                        reject(result)
+                    }
+                })
+            }
         })
     }
 
-    get(url: string, config = {}) {
-        return this.request(Object.assign({ url, method: 'GET' }, config))
+    get<T = any>(url: string, config = {}): Promise<BaseResult<T>> {
+        return this.request<T>(Object.assign({ url, method: 'GET' }, config))
     }
 
-    post(url: string, data = {}, config = {}) {
-        return this.request(Object.assign({ url, data, method: 'POST' }, config))
+    post<T = any>(url: string, data = {}, config = {}): Promise<BaseResult<T>> {
+        return this.request<T>(Object.assign({ url, data, method: 'POST' }, config))
+    }
+
+    uploadFile<T = any>(url: string, filePath: string, name = 'file', config = {}): Promise<BaseResult<T>> {
+        return this.request<T>(Object.assign({ url, filePath, name, method: 'UPLOAD' }, config))
     }
 }
-
-export const instance = new WxRequest({
-    baseURL: 'http://127.0.0.1:8888/applet/'
-})

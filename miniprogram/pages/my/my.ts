@@ -1,7 +1,7 @@
 import { toast } from '../../utils/extendApi'
-import { getStorageSync } from '../../utils/storage'
-import { instance } from '../../utils/request'
-import { UserInfo } from '../../types'
+import { setStorageSync } from '../../utils/storage'
+import { BaseResult, UserInfo } from '../../types'
+import { instance } from '../../utils/util'
 
 // pages/my/my.ts
 Page({
@@ -15,48 +15,26 @@ Page({
                 title: '暑假班优惠正式开始(身份:团长)',
                 iconfont: 'icon-dingdan'
             }
-        ]
+        ],
+        isLoggedIn: false,
+        userInfo: {}
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
-    onLoad() {},
-
-    /**
-     * 生命周期函数--监听页面初次渲染完成
-     */
-    onReady() {},
 
     /**
      * 生命周期函数--监听页面显示
      */
-    onShow() {},
-
-    /**
-     * 生命周期函数--监听页面隐藏
-     */
-    onHide() {},
-
-    /**
-     * 生命周期函数--监听页面卸载
-     */
-    onUnload() {},
-
-    /**
-     * 页面相关事件处理函数--监听用户下拉动作
-     */
-    onPullDownRefresh() {},
-
-    /**
-     * 页面上拉触底事件的处理函数
-     */
-    onReachBottom() {},
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage() {},
+    onShow() {
+        const token = wx.getStorageSync('token')
+        const user = wx.getStorageSync('userInfo')
+        if (token && user) {
+            console.log('user:', user)
+            console.log('token:', token)
+            this.setData({
+                isLoggedIn: true,
+                userInfo: user
+            })
+        }
+    },
 
     // 跳转到登录页面
     toLoginPage() {
@@ -65,30 +43,18 @@ Page({
         }).then()
     },
 
-    onChooseAvatar() {
-        const localUserInfo = getStorageSync('userInfo')
-        console.log(localUserInfo)
-
-        if (localUserInfo) {
-            const user: UserInfo = JSON.parse(localUserInfo as string)
-        } else {
-            toast({ title: '请先授权登陆' })
-        }
-    },
     toGroupBuy() {
         wx.navigateTo({
             url: '/pages/group-buy/group-buy'
         })
     },
-    checkLogin() {
+    getPhoneNumber(e: { detail: { code: string } }) {
         if (!wx.canIUse('button.open-type.getUserInfo')) {
             toast({
                 title: '请升级微信版本!'
             })
         }
-        // wx.navigateTo({
-        //     url: '/pages/user/user'
-        // })
+
         // 直接登录
         wx.login({
             success: async (res) => {
@@ -98,13 +64,33 @@ Page({
                     mask: true
                 })
                 // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                const apiRes = await instance.post('login', {
-                    code: res.code
-                })
-                console.log('api res:', apiRes)
+                instance
+                    .post('applet/login', {
+                        code: res.code,
+                        phoneCode: e.detail.code
+                    })
+                    .then((apiRes: BaseResult<UserInfo>) => {
+                        console.log('api res:', apiRes)
+                        setStorageSync('token', apiRes.data.token)
+                        setStorageSync('userInfo', apiRes.data)
 
-                await wx.hideLoading({})
+                        this.setData({
+                            isLoggedIn: true,
+                            userInfo: apiRes.data
+                        })
+                        wx.hideLoading({})
+                    })
+                    .catch((_error) => {
+                        wx.hideLoading({})
+                    })
             }
+        })
+    },
+    userSettingPage() {
+        // 跳转到修改个人信息页面
+        const userJson = JSON.stringify(this.data.userInfo)
+        wx.navigateTo({
+            url: '/pages/user/user?user=' + userJson
         })
     }
 })
