@@ -39,7 +39,7 @@ export class WxRequest {
                     wx.uploadFile({
                         ...options,
                         success: (result) => {
-                            const res = (result.data as unknown) as BaseResult<T>
+                            const res: BaseResult<T> = JSON.parse(result.data)
                             console.log('res:', res)
                             resolve(this.interceptors.response(res))
                         },

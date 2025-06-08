@@ -1,3 +1,4 @@
+import { setStorageSync } from '../../utils/storage'
 import { instance } from '../../utils/util'
 
 Page({
@@ -19,25 +20,14 @@ Page({
         console.log('avatar:', avatarUrl)
 
         // 上传图片
-        // wx.uploadFile({
-        //     url: instance.defaults.baseURL + 'common/upload', // 你的服务器地址
-        //     filePath: avatarUrl,
-        //     name: 'file', // 和 Rust 中 `field.name()` 对应
-        //     success(uploadRes) {
-        //         console.log('上传成功', uploadRes)
-        //     },
-        //     fail(err) {
-        //         console.error('上传失败', err)
-        //     }
-        // })
         instance.uploadFile('common/upload', avatarUrl).then((res) => {
             console.log('上传成功', res)
-        })
-        this.setData({
-            userInfo: {
-                ...this.data.userInfo,
-                avatar: avatarUrl
-            }
+            this.setData({
+                userInfo: {
+                    ...this.data.userInfo,
+                    avatar: res.data
+                }
+            })
         })
     },
     onInput(e: { detail: { value: string } }) {
@@ -46,5 +36,17 @@ Page({
         this.setData({
             ['userInfo.username']: value
         })
+    },
+    updateUser() {
+        const user = this.data.userInfo
+        instance
+            .post('applet/user', {
+                ...user
+            })
+            .then((res) => {
+                console.log(res.data)
+                setStorageSync('userInfo', res.data)
+                wx.navigateBack()
+            })
     }
 })

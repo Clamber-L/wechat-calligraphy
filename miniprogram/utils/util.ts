@@ -1,4 +1,5 @@
 import { BaseResult } from '../types'
+import { toast } from './extendApi'
 import { WxRequest } from './request'
 import { getStorageSync } from './storage'
 
@@ -10,7 +11,7 @@ instance.interceptors.request = (config) => {
     const token = getStorageSync('token')
 
     if (token) {
-        config.header['token'] = token
+        config.header['accessToken'] = token
     }
     return config
 }
@@ -23,7 +24,7 @@ instance.interceptors.response = <T>(response: BaseResult<T>) => {
     console.log('response data code：', data.code)
 
     if (data.code != 200) {
-        wx.toast({ title: '网络异常', icon: 'error' })
+        toast({ title: response.message, icon: 'error' })
     }
 
     return data

@@ -10,21 +10,27 @@
         <!-- 分隔标题区域 -->
         <view class="section-title"> 每日练字分享 </view>
         <!-- 练字列表区域 -->
-        <view class="practice-list">
-            <view class="practice-item" wx:for="{{practiceList}}" wx:key="index">
+        <scroll-view
+            class="practice-list"
+            lower-threshold="100"
+            bindscrolltolower="getMore"
+            enable-back-to-top
+            scroll-y
+        >
+            <view class="practice-item" wx:for="{{practiceList}}" wx:key="id">
                 <image
                     class="practice-image"
-                    src="{{item.image}}"
+                    src="{{item.content}}"
                     mode="aspectFill"
                     bindtap="previewImage"
-                    data-url="{{item.image}}"
+                    data-url="{{item.content}}"
                 />
                 <view class="practice-info">
                     <view class="practice-date">{{item.date}}</view>
-                    <view class="practice-desc">{{item.desc}}</view>
+                    <view class="practice-desc">{{item.description}}</view>
                 </view>
             </view>
-        </view>
+        </scroll-view>
     </view>
 
     <!-- 活动弹窗 -->

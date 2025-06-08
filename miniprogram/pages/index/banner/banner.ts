@@ -7,9 +7,18 @@ Component({
         bannerList: {
             type: Array,
             value: [
-                '../../../assets/banner/banner-1.jpg',
-                '../../../assets/banner/banner-2.jpg',
-                '../../../assets/banner/banner-3.jpg'
+                {
+                    to: '/pages/group-buy/group-buy',
+                    image: '../../../assets/banner/banner-1.jpg'
+                },
+                {
+                    to: '/pages/group-buy/group-buy',
+                    image: '../../../assets/banner/banner-2.jpg'
+                },
+                {
+                    to: '/pages/group-buy/group-buy',
+                    image: '../../../assets/banner/banner-3.jpg'
+                }
             ]
         }
     },

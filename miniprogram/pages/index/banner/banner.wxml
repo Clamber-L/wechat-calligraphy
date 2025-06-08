@@ -11,8 +11,8 @@
     >
         <block wx:for="{{ bannerList }}" wx:key="index">
             <swiper-item class="swiper-item">
-                <navigator class="navigator" url="/pages/goods/detail/detail?goodsId=id">
-                    <image class="img" src="{{ item }}"></image>
+                <navigator class="navigator" url="{{item.to}}">
+                    <image class="img" src="{{ item.image }}"></image>
                 </navigator>
             </swiper-item>
         </block>

@@ -11,7 +11,6 @@ export const toast = (options: Record<string, any> = {}) => {
         mask
     })
 }
-wx.toast = toast
 
 /**
  * 消息确认提示框
@@ -25,7 +24,7 @@ export const modal = (options: Record<string, any> = {}) => {
             content,
             confirmColor,
             ...options,
-            complete: (res) => {
+            success: (res) => {
                 if (res.cancel) {
                     resolve(false)
                 }
@@ -36,5 +35,3 @@ export const modal = (options: Record<string, any> = {}) => {
         })
     })
 }
-
-wx.modal = modal

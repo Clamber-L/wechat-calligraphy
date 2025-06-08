@@ -33,6 +33,6 @@
         class="poster-img"
     />
     <view class="bottom-container">
-        <button class="signup-button">我的团队</button>
+        <button class="signup-button" bind:tap="checkLogin">我的团队</button>
     </view>
 </scroll-view>

@@ -1,5 +1,5 @@
 import { UserInfo } from '../../types'
-import { toast } from '../../utils/extendApi'
+import { modal, toast } from '../../utils/extendApi'
 import { getStorageSync } from '../../utils/storage'
 
 interface User {
@@ -59,7 +59,7 @@ Component({
                 imageUrl: '../../assets/avatar.png'
             }
         },
-        checkLogin() {
+        async checkLogin() {
             if (!wx.canIUse('button.open-type.getUserInfo')) {
                 toast({
                     title: '请升级微信版本!'
@@ -67,36 +67,20 @@ Component({
             }
             const timestamp = Math.floor(new Date().getTime() / 1000)
 
-            const localUserInfo = getStorageSync('userInfo')
-            console.log(localUserInfo)
-            // 判断token是否过期
+            const localUserInfo: UserInfo = getStorageSync('userInfo')
 
             if (localUserInfo) {
-                const user: UserInfo = JSON.parse(localUserInfo as string)
+                console.log(localUserInfo.username)
+                console.log(typeof localUserInfo)
             } else {
-                wx.getUserProfile({
-                    desc: '获取你的用户信息',
-                    success: function (res) {
-                        var userInfo = res.userInfo
-                        // var nickName = userInfo.nickName
-                        // var avatarUrl = userInfo.avatarUrl
-                        // var gender = userInfo.gender //性别 0：未知、1：男、2：女
-                        // var province = userInfo.province
-                        // var city = userInfo.city
-                        // var country = userInfo.country
-                        console.log('userInfo:', userInfo)
-
-                        wx.login({
-                            success: async (res) => {
-                                console.log('code:' + res.code)
-                                // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                                // const apiRes = await instance.post('login', {
-                                //     code: res.code
-                                // })
-                            }
-                        })
-                    }
+                const res = await modal({
+                    content: '未登录，请先登录'
                 })
+                if (res) {
+                    await wx.switchTab({
+                        url: '/pages/my/my'
+                    })
+                }
             }
 
             console.log('当前时间戳为：' + timestamp)
