@@ -6,7 +6,7 @@
 
     <view class="bottom-show">
         <!-- 未登录面板 -->
-        <view class="user-container section" bindtap="toLoginPage" wx:if="{{!isLoggedIn}}">
+        <view class="user-container section" wx:if="{{!isLoggedIn}}">
             <view class="avatar-container">
                 <button class="avatar-wrapper">
                     <image src="/assets/avatar.png"></image>

@@ -4,11 +4,7 @@
         <view class="header-item">已报名人数:13人</view>
         <view class="header-item">已报名人数:24人</view>
     </view>
-    <image
-        src="https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/1.png"
-        mode="widthFix"
-        class="poster-img"
-    />
+    <image src="{{operation.contents[0].imageUrl}}" mode="widthFix" class="poster-img" />
     <!-- 头像滚动区 -->
     <view class="avatar-view">
         <swiper autoplay class="swiper" interval="2000" duration="1000">
@@ -22,17 +18,10 @@
     </view>
     <!-- 订单滚动区 -->
     <view class="order-view"> </view>
-    <image
-        src="https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/2.png"
-        mode="widthFix"
-        class="poster-img"
-    />
-    <image
-        src="https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/3.png"
-        mode="widthFix"
-        class="poster-img"
-    />
+    <image src="{{operation.contents[1].imageUrl}}" mode="widthFix" class="poster-img" />
+    <image src="{{operation.contents[2].imageUrl}}" mode="widthFix" class="poster-img" />
     <view class="bottom-container">
-        <button class="signup-button" bind:tap="checkLogin">我的团队</button>
+        <button wx:if="{{operation.beEnd}}" class="signup-button" bind:tap="myTeam">我的团购</button>
+        <button wx:else class="signup-button" bind:tap="checkLogin" disabled>活动已结束</button>
     </view>
 </scroll-view>

@@ -29,3 +29,22 @@ export interface UserCreationItem {
     createdTime: string
     updatedTime: string
 }
+
+export interface OperationResponse {
+    beOpen: boolean
+    beEnd: boolean
+    contents: OperationContentResponse[]
+    createdTime: string
+    endTime: string
+    id: string
+    name: string
+}
+
+export interface OperationContentResponse {
+    createdTime: string
+    id: string
+    imageSort: number
+    imageUrl: string
+    operationId: string
+    updatedTime: string
+}

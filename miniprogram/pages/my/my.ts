@@ -2,12 +2,7 @@ import { toast } from '../../utils/extendApi'
 import { setStorageSync } from '../../utils/storage'
 import { BaseResult, UserInfo } from '../../types'
 import { instance } from '../../utils/util'
-
-// pages/my/my.ts
 Page({
-    /**
-     * 页面的初始数据
-     */
     data: {
         initpanel: [
             {
@@ -17,12 +12,10 @@ Page({
             }
         ],
         isLoggedIn: false,
-        userInfo: {}
+        userInfo: {},
+        from: ''
     },
 
-    /**
-     * 生命周期函数--监听页面显示
-     */
     onShow() {
         const token = wx.getStorageSync('token')
         const user = wx.getStorageSync('userInfo')
@@ -34,13 +27,7 @@ Page({
                 userInfo: user
             })
         }
-    },
-
-    // 跳转到登录页面
-    toLoginPage() {
-        wx.navigateTo({
-            url: '/pages/login/login'
-        }).then()
+        // 检查是否参与过拼团
     },
 
     toGroupBuy() {
@@ -48,43 +35,56 @@ Page({
             url: '/pages/group-buy/group-buy'
         })
     },
-    getPhoneNumber(e: { detail: { code: string } }) {
+    getPhoneNumber(e: { detail: { code: string; errMsg: string } }) {
         if (!wx.canIUse('button.open-type.getUserInfo')) {
             toast({
                 title: '请升级微信版本!'
             })
         }
-
-        // 直接登录
-        wx.login({
-            success: async (res) => {
-                console.log('code:' + res.code)
-                await wx.showLoading({
-                    title: '数据加载中...',
-                    mask: true
-                })
-                // 发送 res.code 到后台换取 openId, sessionKey, unionId
-                instance
-                    .post('applet/login', {
-                        code: res.code,
-                        phoneCode: e.detail.code
+        if (e.detail.errMsg === 'getPhoneNumber:ok') {
+            // 直接登录
+            wx.login({
+                success: async (res) => {
+                    console.log('code:' + res.code)
+                    await wx.showLoading({
+                        title: '数据加载中...',
+                        mask: true
                     })
-                    .then((apiRes: BaseResult<UserInfo>) => {
-                        console.log('api res:', apiRes)
-                        setStorageSync('token', apiRes.data.token)
-                        setStorageSync('userInfo', apiRes.data)
-
-                        this.setData({
-                            isLoggedIn: true,
-                            userInfo: apiRes.data
+                    // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                    instance
+                        .post('applet/login', {
+                            code: res.code,
+                            phoneCode: e.detail.code
                         })
-                        wx.hideLoading({})
-                    })
-                    .catch((_error) => {
-                        wx.hideLoading({})
-                    })
-            }
-        })
+                        .then((apiRes: BaseResult<UserInfo>) => {
+                            console.log('api res:', apiRes)
+                            setStorageSync('token', apiRes.data.token)
+                            setStorageSync('userInfo', apiRes.data)
+
+                            this.setData({
+                                isLoggedIn: true,
+                                userInfo: apiRes.data
+                            })
+                            wx.hideLoading({})
+
+                            const app = getApp()
+                            if (app.globalData.toUserPage === 'buy') {
+                                app.globalData.toUserPage = ''
+                                wx.navigateTo({
+                                    url: '/pages/group-buy/group-buy'
+                                })
+                            }
+                        })
+                        .catch((_error) => {
+                            wx.hideLoading({})
+                        })
+                }
+            })
+        } else {
+            toast({
+                title: '登录已取消'
+            })
+        }
     },
     userSettingPage() {
         // 跳转到修改个人信息页面

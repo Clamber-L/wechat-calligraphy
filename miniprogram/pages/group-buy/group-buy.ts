@@ -1,6 +1,7 @@
-import { UserInfo } from '../../types'
+import { OperationResponse, UserInfo } from '../../types'
 import { modal, toast } from '../../utils/extendApi'
 import { getStorageSync } from '../../utils/storage'
+import { instance } from '../../utils/util'
 
 interface User {
     name: string
@@ -11,6 +12,7 @@ Component({
     data: {
         userList: [{}], // 用户头像列表
         orderList: [{}],
+        operation: {} as OperationResponse,
         canIUse: wx.canIUse('button.open-type.getUserInfo')
     },
     methods: {
@@ -30,6 +32,14 @@ Component({
 
             this.setData({
                 orderList: orders
+            })
+        },
+
+        onShow() {
+            instance.get('applet/operation').then((res) => {
+                this.setData({
+                    operation: res.data
+                })
             })
         },
 
@@ -59,17 +69,16 @@ Component({
                 imageUrl: '../../assets/avatar.png'
             }
         },
-        async checkLogin() {
+        async myTeam() {
             if (!wx.canIUse('button.open-type.getUserInfo')) {
                 toast({
                     title: '请升级微信版本!'
                 })
             }
-            const timestamp = Math.floor(new Date().getTime() / 1000)
-
             const localUserInfo: UserInfo = getStorageSync('userInfo')
 
             if (localUserInfo) {
+                // 判断有没有创建团购或者加入团购
                 console.log(localUserInfo.username)
                 console.log(typeof localUserInfo)
             } else {
@@ -77,13 +86,13 @@ Component({
                     content: '未登录，请先登录'
                 })
                 if (res) {
+                    const app = getApp()
+                    app.globalData.toUserPage = 'buy'
                     await wx.switchTab({
                         url: '/pages/my/my'
                     })
                 }
             }
-
-            console.log('当前时间戳为：' + timestamp)
         }
     }
 })

@@ -1,5 +1,7 @@
 // app.ts
-App<IAppOption>({
-    globalData: {},
+App({
+    globalData: {
+        toUserPage: ''
+    },
     onLaunch() {}
 })
