@@ -48,3 +48,15 @@ export interface OperationContentResponse {
     operationId: string
     updatedTime: string
 }
+
+export interface TeamResponse {
+    hasTeam: boolean
+    teamId: string
+    userList: TeamUserResponse[]
+}
+
+export interface TeamUserResponse {
+    username: string
+    avatar: string
+    userId: string
+}

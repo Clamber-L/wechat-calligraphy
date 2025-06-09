@@ -1,4 +1,4 @@
-import { OperationResponse, UserInfo } from '../../types'
+import { OperationResponse, TeamResponse, UserInfo } from '../../types'
 import { modal, toast } from '../../utils/extendApi'
 import { getStorageSync } from '../../utils/storage'
 import { instance } from '../../utils/util'
@@ -13,7 +13,7 @@ Component({
         userList: [{}], // 用户头像列表
         orderList: [{}],
         operation: {} as OperationResponse,
-        canIUse: wx.canIUse('button.open-type.getUserInfo')
+        teamUserList: {} as TeamResponse
     },
     methods: {
         onLoad: function () {
@@ -40,6 +40,16 @@ Component({
                 this.setData({
                     operation: res.data
                 })
+                const localUserInfo: UserInfo = getStorageSync('userInfo')
+
+                if (localUserInfo) {
+                    // 判断有没有创建团购或者加入团购
+                    instance.get(`applet/team?operationId=${res.data.id}`).then((res) => {
+                        this.setData({
+                            teamUserList: res.data
+                        })
+                    })
+                }
             })
         },
 
@@ -79,8 +89,18 @@ Component({
 
             if (localUserInfo) {
                 // 判断有没有创建团购或者加入团购
-                console.log(localUserInfo.username)
-                console.log(typeof localUserInfo)
+                if (!this.data.teamUserList.hasTeam) {
+                    // 没有加入团队 没有付款
+                    // 判断是否别人邀请
+                    // 忽略付款逻辑 直接创建团队
+                    instance.post('applet/create_team', {
+                        operationId: this.data.operation.id
+                    })
+                } else {
+                    toast({
+                        title: this.data.teamUserList.userList[0].username
+                    })
+                }
             } else {
                 const res = await modal({
                     content: '未登录，请先登录'
