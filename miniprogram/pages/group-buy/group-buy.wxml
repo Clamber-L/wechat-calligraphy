@@ -21,7 +21,7 @@
     <image src="{{operation.contents[1].imageUrl}}" mode="widthFix" class="poster-img" />
     <image src="{{operation.contents[2].imageUrl}}" mode="widthFix" class="poster-img" />
     <view class="bottom-container">
-        <button wx:if="{{beEnd}}" class="signup-button" bind:tap="myTeam">我的团购</button>
+        <button wx:if="{{!operation.beEnd}}" class="signup-button" bind:tap="myTeam">我的团购</button>
         <button wx:else class="signup-button" bind:tap="checkLogin" disabled>活动已结束</button>
     </view>
 </scroll-view>

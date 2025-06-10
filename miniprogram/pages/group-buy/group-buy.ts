@@ -13,8 +13,7 @@ Component({
         userList: [{}], // 用户头像列表
         orderList: [{}],
         operation: {} as OperationResponse,
-        teamUserList: {} as TeamResponse,
-        beEnd: false
+        teamUserList: {} as TeamResponse
     },
     methods: {
         onLoad: function () {
@@ -39,25 +38,21 @@ Component({
         onShow() {
             const localUserInfo: UserInfo = getStorageSync('userInfo')
 
+            // 获取活动信息 判断活动是否结束
             if (localUserInfo) {
                 instance.get('applet/operation').then((res) => {
-                    if (res.code === 200) {
-                        this.setData({
-                            operation: res.data
-                        })
-                        // 判断有没有创建团购或者加入团购
-                        instance.get(`applet/team?operationId=${res.data.id}`).then((res) => {
-                            if (res.code === 200) {
-                                this.setData({
-                                    teamUserList: res.data
-                                })
-                            }
-                        })
-                    } else {
-                        this.setData({
-                            beEnd: true
-                        })
-                    }
+                    console.log('res data:', res.data)
+                    this.setData({
+                        operation: res.data
+                    })
+                    // 判断有没有创建团购或者加入团购
+                    instance.get(`applet/team?operationId=${res.data.id}`).then((res) => {
+                        if (res.code === 200) {
+                            this.setData({
+                                teamUserList: res.data
+                            })
+                        }
+                    })
                 })
             }
         },
