@@ -17,11 +17,7 @@ instance.interceptors.request = (config) => {
 }
 
 instance.interceptors.response = <T>(response: BaseResult<T>) => {
-    const type = typeof response
     const data = response
-    console.log('type:', type)
-    console.log('response data：', data)
-    console.log('response data code：', data.code)
 
     if (data.code != 200) {
         toast({ title: response.message, icon: 'error' })
