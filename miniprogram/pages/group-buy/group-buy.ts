@@ -13,7 +13,8 @@ Component({
         userList: [{}], // 用户头像列表
         orderList: [{}],
         operation: {} as OperationResponse,
-        teamUserList: {} as TeamResponse
+        teamUserList: {} as TeamResponse,
+        show: false
     },
     methods: {
         onLoad: function () {
@@ -41,7 +42,6 @@ Component({
             // 获取活动信息 判断活动是否结束
             if (localUserInfo) {
                 instance.get('applet/operation').then((res) => {
-                    console.log('res data:', res.data)
                     this.setData({
                         operation: res.data
                     })
@@ -57,19 +57,28 @@ Component({
             }
         },
 
-        onUnload() {
-            clearInterval(this.data.scrollTimer), clearInterval(this.data.orderTimer)
+        hidePopup() {
+            this.setData({ show: false })
         },
 
         /**
          * 用户点击右上角分享
          */
         onShareAppMessage(obj: any) {
-            console.log(obj)
+            const localUserInfo: UserInfo = getStorageSync('userInfo')
+            let path
+            if (localUserInfo) {
+                path = `/pages/group-buy/group-buy?fromUser=${localUserInfo.userId}&operationId=${this.data.operation.id}`
+            } else {
+                path = `/pages/group-buy/group-buy?operationId=${this.data.operation.id}`
+            }
+
+            console.log('share path:', path)
+
             return {
                 title: '赶紧买课，早买早享受，晚买享折扣',
                 imageUrl: '../../assets/avatar.png',
-                path: '/pages/group-buy/group-buy'
+                path: path
             }
         },
 
@@ -101,8 +110,8 @@ Component({
                         operationId: this.data.operation.id
                     })
                 } else {
-                    toast({
-                        title: this.data.teamUserList.userList[0].username
+                    this.setData({
+                        show: true
                     })
                 }
             } else {

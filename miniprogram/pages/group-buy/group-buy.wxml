@@ -24,4 +24,24 @@
         <button wx:if="{{!operation.beEnd}}" class="signup-button" bind:tap="myTeam">我的团购</button>
         <button wx:else class="signup-button" bind:tap="checkLogin" disabled>活动已结束</button>
     </view>
+    <!-- 拼团人员区域 -->
+    <view class="team-container">
+        <view wx:if="{{show}}" class="popup-mask" bindtap="hidePopup"></view>
+
+        <view wx:if="{{show}}" class="popup-box">
+            <view class="popup-header">
+                <text class="popup-title">拼团成员</text>
+                <text class="popup-close" bindtap="hidePopup">×</text>
+            </view>
+
+            <view scroll-x="true" class="avatar-scroll">
+                <block wx:for="{{teamUserList.userList}}" wx:key="id">
+                    <view class="member-item">
+                        <image class="avatar" src="{{item.avatar}}" />
+                        <text class="name">{{item.username}}</text>
+                    </view>
+                </block>
+            </view>
+        </view>
+    </view>
 </scroll-view>
