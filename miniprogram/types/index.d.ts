@@ -60,3 +60,9 @@ export interface TeamUserResponse {
     avatar: string
     userId: string
 }
+
+export interface OperationCount {
+    todayNum: number
+    allNum: number
+    userList: TeamUserResponse[]
+}

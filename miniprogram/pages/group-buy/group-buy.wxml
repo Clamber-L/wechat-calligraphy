@@ -1,17 +1,16 @@
 <scroll-view scroll-y style="height: 100vh" class="container">
     <view class="header-container">
-        <view class="header-item">已报名人数:12人</view>
-        <view class="header-item">已报名人数:13人</view>
-        <view class="header-item">已报名人数:24人</view>
+        <view class="header-item">今日报名人数:{{operationNum.todayNum}}人</view>
+        <view class="header-item">总报名人数:{{operationNum.allNum}}人</view>
     </view>
     <image src="{{operation.contents[0].imageUrl}}" mode="widthFix" class="poster-img" />
     <!-- 头像滚动区 -->
     <view class="avatar-view">
         <swiper autoplay class="swiper" interval="2000" duration="1000">
-            <block wx:for="{{ userList }}" wx:key="index">
+            <block wx:for="{{ operationNum.buyUserList }}" wx:key="index">
                 <swiper-item class="swiper-item">
-                    <image class="image-item" src="{{item.avatarUrl}}" />
-                    <view class="user-item">{{ item.name }}最近购买了1000元课程</view>
+                    <image class="image-item" src="{{item.avatar}}" />
+                    <view class="user-item">{{ item.username }}最近购买了1000元课程</view>
                 </swiper-item>
             </block>
         </swiper>

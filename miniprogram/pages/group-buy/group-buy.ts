@@ -1,4 +1,4 @@
-import { OperationResponse, TeamResponse, UserInfo } from '../../types'
+import { OperationCount, OperationResponse, TeamResponse, UserInfo } from '../../types'
 import { modal, toast } from '../../utils/extendApi'
 import { getStorageSync } from '../../utils/storage'
 import { instance } from '../../utils/util'
@@ -14,7 +14,8 @@ Component({
         orderList: [{}],
         operation: {} as OperationResponse,
         teamUserList: {} as TeamResponse,
-        show: false
+        show: false,
+        operationNum: {} as OperationCount
     },
     methods: {
         onLoad: function () {
@@ -50,6 +51,16 @@ Component({
                         if (res.code === 200) {
                             this.setData({
                                 teamUserList: res.data
+                            })
+                        }
+                    })
+                    // 获取活动人数
+                    instance.get(`applet/operation_user_num?operationId=${res.data.id}`).then((res) => {
+                        console.log('num:', res)
+
+                        if (res.code === 200) {
+                            this.setData({
+                                operationNum: res.data
                             })
                         }
                     })
