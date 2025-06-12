@@ -9,15 +9,15 @@ Component({
             value: [
                 {
                     to: '/pages/group-buy/group-buy',
-                    image: '../../../assets/banner/banner-1.jpg'
+                    image: 'https://cdn.pixabay.com/photo/2024/08/31/06/24/river-9010602_1280.jpg'
                 },
                 {
                     to: '/pages/group-buy/group-buy',
-                    image: '../../../assets/banner/banner-2.jpg'
+                    image: 'https://cdn.pixabay.com/photo/2024/08/31/06/24/river-9010602_1280.jpg'
                 },
                 {
                     to: '/pages/group-buy/group-buy',
-                    image: '../../../assets/banner/banner-3.jpg'
+                    image: 'https://cdn.pixabay.com/photo/2024/08/31/06/24/river-9010602_1280.jpg'
                 }
             ]
         }

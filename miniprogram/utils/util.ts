@@ -4,7 +4,8 @@ import { WxRequest } from './request'
 import { getStorageSync } from './storage'
 
 export const instance = new WxRequest({
-    baseURL: 'http://127.0.0.1:8888/'
+    // baseURL: 'http://47.95.179.146:8888/'
+    baseURL: 'https://applet.lingyus.cn/app/'
 })
 
 instance.interceptors.request = (config) => {
