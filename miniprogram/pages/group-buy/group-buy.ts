@@ -37,7 +37,11 @@ Component({
             })
         },
 
-        onShow() {
+        async onShow() {
+            await wx.showLoading({
+                title: '数据加载中...',
+                mask: true
+            })
             const localUserInfo: UserInfo = getStorageSync('userInfo')
 
             // 获取活动信息 判断活动是否结束
@@ -66,6 +70,7 @@ Component({
                     })
                 })
             }
+            await wx.hideLoading({})
         },
 
         hidePopup() {
@@ -117,9 +122,43 @@ Component({
                     // 没有加入团队 没有付款
                     // 判断是否别人邀请
                     // 忽略付款逻辑 直接创建团队
-                    instance.post('applet/create_team', {
-                        operationId: this.data.operation.id
+                    // instance.post('applet/create_team', {
+                    //     operationId: this.data.operation.id
+                    // })
+                    wx.login({
+                        success: async (res) => {
+                            console.log('pay res code:', res.code)
+
+                            instance
+                                .post('applet/pay', {
+                                    code: res.code,
+                                    groupBuyId: '12321'
+                                })
+                                .then((res) => {
+                                    console.log(res)
+                                })
+                        }
                     })
+
+                    // try {
+                    //     await wx.requestPayment({
+                    //       timeStamp: payData.timeStamp,
+                    //       nonceStr: payData.nonceStr,
+                    //       package: payData.package,
+                    //       signType: payData.signType,
+                    //       paySign: payData.paySign,
+                    //       success(res) {
+                    //         console.log('支付成功', res);
+                    //         wx.showToast({ title: '支付成功', icon: 'success' });
+                    //       },
+                    //       fail(err) {
+                    //         console.error('支付失败', err);
+                    //         wx.showToast({ title: '支付失败', icon: 'none' });
+                    //       },
+                    //     });
+                    //   } catch (error) {
+                    //     console.error('调起支付异常', error);
+                    //   }
                 } else {
                     this.setData({
                         show: true
