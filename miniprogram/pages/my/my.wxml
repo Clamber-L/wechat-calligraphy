@@ -1,7 +1,7 @@
 <view class="container">
     <!-- 顶部展示图 -->
     <view class="top-show">
-        <image mode="widthFix" class="top-show-img" src="/assets/banner.jpg"></image>
+        <image mode="widthFix" class="top-show-img" src="{{backgroundImage.settingValue}}"></image>
     </view>
 
     <view class="bottom-show">
@@ -35,16 +35,15 @@
         <!-- 订单面板 -->
         <view class="order section">
             <view class="order-title-wrap">
-                <text class="title">我的团购</text>
+                <text class="title">进行中的团购</text>
                 <text class="more" bind:tap="toGroupBuy">查看更多 ></text>
             </view>
 
             <!-- 改为竖向布局 -->
             <view class="order-content-vertical">
-                <view class="order-content-item" wx:for="{{ initpanel }}" wx:key="index">
+                <view class="order-content-item">
                     <navigator url="{{ item.url }}" class="order-item-link">
-                        <view class="iconfont {{ item.iconfont }}"></view>
-                        <text>{{ item.title }}</text>
+                        <text>{{ operationName }}</text>
                     </navigator>
                 </view>
             </view>

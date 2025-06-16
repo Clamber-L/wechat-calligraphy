@@ -1,19 +1,15 @@
 import { toast } from '../../utils/extendApi'
 import { setStorageSync } from '../../utils/storage'
-import { BaseResult, UserInfo } from '../../types'
+import { BaseResult, SettingsResponse, UserInfo, OperationUserResponse } from '../../types'
 import { instance } from '../../utils/util'
 Page({
     data: {
-        initpanel: [
-            {
-                url: '/pages/group-buy/group-buy',
-                title: '暑假班优惠正式开始(身份:团长)',
-                iconfont: 'icon-dingdan'
-            }
-        ],
+        operationUser: {} as OperationUserResponse,
         isLoggedIn: false,
+        backgroundImage: {} as SettingsResponse,
         userInfo: {},
-        from: ''
+        from: '',
+        operationName: '暂无团购活动'
     },
 
     onShow() {
@@ -28,6 +24,45 @@ Page({
             })
         }
         // 检查是否参与过拼团
+        instance.get('applet/operation_user').then((res) => {
+            console.log('operation user:', res)
+            if (res.code === 200) {
+                const data: OperationUserResponse = res.data
+                this.setData({
+                    operationUser: data
+                })
+                if (data.hasOperation) {
+                    this.setData({
+                        operationName: data.operationName
+                    })
+                }
+                if (data.commander) {
+                    this.setData({
+                        operationName: data.operationName + ' (团长)'
+                    })
+                }
+                if (!data.commander && data.joined) {
+                    this.setData({
+                        operationName: data.operationName + ' (团员)'
+                    })
+                }
+                if (!data.commander && !data.joined) {
+                    this.setData({
+                        operationName: data.operationName + ' (未参加)'
+                    })
+                }
+            }
+        })
+
+        // 获取配置信息
+        instance.get('applet/settings?settingType=1').then((res) => {
+            if (res.code === 200) {
+                const data: SettingsResponse = res.data
+                this.setData({
+                    backgroundImage: data
+                })
+            }
+        })
     },
 
     toGroupBuy() {

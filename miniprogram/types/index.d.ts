@@ -66,3 +66,25 @@ export interface OperationCount {
     allNum: number
     userList: TeamUserResponse[]
 }
+
+export interface PayResponse {
+    prepayId: string
+    signType: string
+    package: string
+    nonceStr: string
+    timestamp: string
+    paySign: string
+}
+
+export interface SettingsResponse {
+    id: String
+    settingType: number
+    settingValue: string
+}
+
+export interface OperationUserResponse {
+    commander: boolean
+    hasOperation: boolean
+    joined: boolean
+    operationName: string
+}
