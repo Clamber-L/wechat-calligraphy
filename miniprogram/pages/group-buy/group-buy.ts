@@ -119,43 +119,33 @@ Component({
             if (localUserInfo) {
                 // 判断有没有创建团购或者加入团购
                 if (!this.data.teamUserList.hasTeam) {
-                    // 没有加入团队 没有付款
-                    // 判断是否别人邀请
-                    // 忽略付款逻辑 直接创建团队
-                    wx.login({
-                        success: async (res) => {
-                            console.log('pay res code:', res.code)
-
-                            instance
-                                .post('applet/pay', {
-                                    code: res.code,
-                                    groupBuyId: '12321'
-                                })
-                                .then((res: BaseResult<PayResponse>) => {
-                                    console.log(res)
-                                    const payResponse = res.data
-                                    try {
-                                        wx.requestPayment({
-                                            timeStamp: payResponse.timestamp,
-                                            nonceStr: payResponse.nonceStr,
-                                            package: payResponse.package,
-                                            signType: 'RSA',
-                                            paySign: payResponse.paySign,
-                                            success(res) {
-                                                console.log('支付成功', res)
-                                                wx.showToast({ title: '支付成功', icon: 'success' })
-                                            },
-                                            fail(err) {
-                                                console.error('支付失败', err)
-                                                wx.showToast({ title: '支付失败', icon: 'none' })
-                                            }
-                                        })
-                                    } catch (error) {
-                                        console.error('调起支付异常', error)
+                    instance
+                        .post('applet/pay', {
+                            operationId: this.data.operation.id
+                        })
+                        .then((res: BaseResult<PayResponse>) => {
+                            console.log(res)
+                            const payResponse = res.data
+                            try {
+                                wx.requestPayment({
+                                    timeStamp: payResponse.timestamp,
+                                    nonceStr: payResponse.nonceStr,
+                                    package: payResponse.package,
+                                    signType: 'RSA',
+                                    paySign: payResponse.paySign,
+                                    success(res) {
+                                        console.log('支付成功', res)
+                                        wx.showToast({ title: '支付成功', icon: 'success' })
+                                    },
+                                    fail(err) {
+                                        console.error('支付失败', err)
+                                        wx.showToast({ title: '支付失败', icon: 'none' })
                                     }
                                 })
-                        }
-                    })
+                            } catch (error) {
+                                console.error('调起支付异常', error)
+                            }
+                        })
                 } else {
                     this.setData({
                         show: true
