@@ -5,16 +5,19 @@
     </view>
     <image src="{{operation.contents[0].imageUrl}}" mode="widthFix" class="poster-img" />
     <!-- 头像滚动区 -->
-    <view class="avatar-view">
-        <swiper autoplay class="swiper" interval="2000" duration="1000">
-            <block wx:for="{{ operationNum.buyUserList }}" wx:key="index">
-                <swiper-item class="swiper-item">
-                    <image class="image-item" src="{{item.avatar}}" />
-                    <view class="user-item">{{ item.username }}最近购买了1000元课程</view>
-                </swiper-item>
-            </block>
-        </swiper>
-    </view>
+    <block wx:if="{{operationNum.buyUserList.length !== 0}}">
+        <view class="avatar-view">
+            <swiper autoplay class="swiper" interval="2000" duration="1000">
+                <block wx:for="{{ operationNum.buyUserList }}" wx:key="index">
+                    <swiper-item class="swiper-item">
+                        <image class="image-item" src="{{item.avatar}}" />
+                        <view class="user-item">{{ item.username }}最近购买了1000元课程</view>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+    </block>
+
     <!-- 订单滚动区 -->
     <view class="order-view"> </view>
     <image src="{{operation.contents[1].imageUrl}}" mode="widthFix" class="poster-img" />
@@ -22,6 +25,7 @@
     <view class="bottom-container">
         <button wx:if="{{!operation.beEnd}}" class="signup-button" bind:tap="myTeam">我的团购</button>
         <button wx:else class="signup-button" bind:tap="checkLogin" disabled>活动已结束</button>
+        <button wx:if="{{canJoin}}" class="signup-button" bind:tap="joinTeam">加入团队</button>
     </view>
     <!-- 拼团人员区域 -->
     <view class="team-container">
