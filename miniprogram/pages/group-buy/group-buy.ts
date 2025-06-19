@@ -16,7 +16,7 @@ Component({
         teamUserList: {} as TeamResponse,
         show: false,
         operationNum: {} as OperationCount,
-        fromUser: '',
+        fromUser: '123',
         canJoin: false
     },
 
@@ -49,25 +49,28 @@ Component({
                     })
                     // 获取在本次团购活动中的团队信息
                     const teamResponse = await instance.get(`applet/team?operationId=${operationResponse.data.id}`)
+                    console.log('teamResponse:', teamResponse)
+
                     if (teamResponse.code === 200) {
                         this.setData({
                             teamUserList: teamResponse.data
                         })
-                    }
-                    // 判断加入团队还是创建团队
-                    if (this.data.fromUser !== '') {
-                        // 来自分享页面
-                        // 判断是否加入了团队
-                        if (!teamResponse.data.hasTeam) {
-                            // 没有加入团队 可选择创建团队或加入团队
-                            this.setData({
-                                canJoin: true
-                            })
-                        }
-                    } else {
-                        // 来自用户主动进入
-                        if (!teamResponse.data.hasTeam) {
-                            // 没有加入团队 只能创建团队
+
+                        // 判断加入团队还是创建团队
+                        if (this.data.fromUser !== '') {
+                            // 来自分享页面
+                            // 判断是否加入了团队
+                            if (!teamResponse.data.hasTeam) {
+                                // 没有加入团队 可选择创建团队或加入团队
+                                this.setData({
+                                    canJoin: true
+                                })
+                            }
+                        } else {
+                            // 来自用户主动进入
+                            if (!teamResponse.data.hasTeam) {
+                                // 没有加入团队 只能创建团队
+                            }
                         }
                     }
 
@@ -155,7 +158,7 @@ Component({
             // 如果从分享页面进入，判断是否有团队，没有团队判断是加入团队 还是新建团队
             if (this.data.canJoin) {
                 // 分享页面进入 点击我的团购
-                const modalRes = modal({
+                const modalRes = await modal({
                     title: '提示',
                     content: '您确定创建新的团队，不加入分享的团队吗?'
                 })
@@ -174,7 +177,8 @@ Component({
         async pay(createTeam: boolean) {
             const payRes: BaseResult<PayResponse> = await instance.post('applet/pay', {
                 operationId: this.data.operation.id,
-                createTeam
+                createTeam,
+                joinTeamId: this.data.teamUserList.hasTeam ? this.data.teamUserList.teamId : ''
             })
             console.log(payRes)
 
@@ -198,6 +202,7 @@ Component({
             } catch (error) {
                 console.error('调起支付异常', error)
             }
+            this.onShow()
         }
     }
 })

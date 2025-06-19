@@ -23,9 +23,14 @@
     <image src="{{operation.contents[1].imageUrl}}" mode="widthFix" class="poster-img" />
     <image src="{{operation.contents[2].imageUrl}}" mode="widthFix" class="poster-img" />
     <view class="bottom-container">
-        <button wx:if="{{!operation.beEnd}}" class="signup-button" bind:tap="myTeam">我的团购</button>
+        <block wx:if="{{!operation.beEnd}}">
+            <button wx:if="{{teamUserList.hasTeam}}" class="signup-button" bind:tap="myTeam">我的团队</button>
+            <button wx:else class="signup-button" bind:tap="myTeam">创建团队</button>
+            <button wx:if="{{!teamUserList.hasTeam && canJoin}}" class="signup-button" bind:tap="joinTeam">
+                加入团队
+            </button>
+        </block>
         <button wx:else class="signup-button" bind:tap="checkLogin" disabled>活动已结束</button>
-        <button wx:if="{{canJoin}}" class="signup-button" bind:tap="joinTeam">加入团队</button>
     </view>
     <!-- 拼团人员区域 -->
     <view class="team-container">
