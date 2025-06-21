@@ -3,11 +3,6 @@ import { modal, toast } from '../../utils/extendApi'
 import { getStorageSync } from '../../utils/storage'
 import { instance } from '../../utils/util'
 
-interface User {
-    name: string
-    avatarUrl: string
-}
-
 Component({
     data: {
         userList: [{}], // 用户头像列表
@@ -16,7 +11,7 @@ Component({
         teamUserList: {} as TeamResponse,
         show: false,
         operationNum: {} as OperationCount,
-        fromUser: '123',
+        fromUser: '',
         canJoin: false
     },
 
@@ -47,32 +42,8 @@ Component({
                     this.setData({
                         operation: operationResponse.data
                     })
-                    // 获取在本次团购活动中的团队信息
-                    const teamResponse = await instance.get(`applet/team?operationId=${operationResponse.data.id}`)
-                    console.log('teamResponse:', teamResponse)
-
-                    if (teamResponse.code === 200) {
-                        this.setData({
-                            teamUserList: teamResponse.data
-                        })
-
-                        // 判断加入团队还是创建团队
-                        if (this.data.fromUser !== '') {
-                            // 来自分享页面
-                            // 判断是否加入了团队
-                            if (!teamResponse.data.hasTeam) {
-                                // 没有加入团队 可选择创建团队或加入团队
-                                this.setData({
-                                    canJoin: true
-                                })
-                            }
-                        } else {
-                            // 来自用户主动进入
-                            if (!teamResponse.data.hasTeam) {
-                                // 没有加入团队 只能创建团队
-                            }
-                        }
-                    }
+                    // 用户团购情况
+                    await this.userTeam(operationResponse.data.id)
 
                     // 获取本次团购的人数
                     const userNumResponse = await instance.get(
@@ -91,6 +62,35 @@ Component({
                 }
             }
             await wx.hideLoading({})
+        },
+
+        async userTeam(operationId: string) {
+            // 获取在本次团购活动中的团队信息
+            const teamResponse = await instance.get(`applet/team?operationId=${operationId}`)
+            console.log('teamResponse:', teamResponse)
+
+            if (teamResponse.code === 200) {
+                this.setData({
+                    teamUserList: teamResponse.data
+                })
+
+                // 判断加入团队还是创建团队
+                if (this.data.fromUser !== '') {
+                    // 来自分享页面
+                    // 判断是否加入了团队
+                    if (!teamResponse.data.hasTeam) {
+                        // 没有加入团队 可选择创建团队或加入团队
+                        this.setData({
+                            canJoin: true
+                        })
+                    }
+                } else {
+                    // 来自用户主动进入
+                    if (!teamResponse.data.hasTeam) {
+                        // 没有加入团队 只能创建团队
+                    }
+                }
+            }
         },
 
         hidePopup() {
@@ -122,9 +122,14 @@ Component({
          * 分享到朋友圈
          */
         onShareTimeline() {
+            const localUserInfo: UserInfo = getStorageSync('userInfo')
+            let query = ''
+            if (localUserInfo) {
+                query = `fromUser=${localUserInfo.userId}`
+            }
             return {
                 title: '帮我砍一刀',
-                query: 'id=1',
+                query: query,
                 imageUrl: '../../assets/avatar.png'
             }
         },
@@ -172,7 +177,17 @@ Component({
             }
         },
 
-        async joinTeam() {},
+        async joinTeam() {
+            // 需要先判断发起者是否支付创建团队成功
+            const userPayedResponse = await instance.get(`applet/user_pay?payedUserId=${this.data.fromUser}`)
+            if (userPayedResponse.code !== 200) {
+                toast({
+                    title: '此用户的队伍还未创建,不能加入该团购!'
+                })
+                return
+            }
+            await this.pay(false)
+        },
 
         async pay(createTeam: boolean) {
             const payRes: BaseResult<PayResponse> = await instance.post('applet/pay', {
@@ -193,6 +208,13 @@ Component({
                     success(res) {
                         console.log('支付成功', res)
                         wx.showToast({ title: '支付成功', icon: 'success' })
+                        setTimeout(() => {
+                            console.log('navigate to buy page')
+
+                            wx.redirectTo({
+                                url: '/pages/group-buy/group-buy'
+                            })
+                        }, 2000)
                     },
                     fail(err) {
                         console.error('支付失败', err)
@@ -202,7 +224,6 @@ Component({
             } catch (error) {
                 console.error('调起支付异常', error)
             }
-            this.onShow()
         }
     }
 })
