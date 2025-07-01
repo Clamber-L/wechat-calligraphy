@@ -51,6 +51,15 @@ Page({
                         operationName: data.operationName + ' (未参加)'
                     })
                 }
+            } else if (res.code === 403) {
+                // 登录过期
+                wx.removeStorageSync('token')
+                wx.removeStorageSync('userInfo')
+
+                this.setData({
+                    isLoggedIn: false,
+                    userInfo: {}
+                })
             }
         })
 

@@ -2,13 +2,13 @@
     "pages": ["pages/index/index", "pages/my/my", "pages/user/user", "pages/group-buy/group-buy"],
     "window": {
         "backgroundTextStyle": "light",
-        "navigationBarBackgroundColor": "#f3514f",
+        "navigationBarBackgroundColor": "#3b99d8",
         "navigationBarTitleText": "东岸书法",
         "navigationBarTextStyle": "white"
     },
     "tabBar": {
         "color": "#252933",
-        "selectedColor": "#FF734C",
+        "selectedColor": "#3b99d8",
         "backgroundColor": "#ffffff",
         "borderStyle": "black",
         "list": [

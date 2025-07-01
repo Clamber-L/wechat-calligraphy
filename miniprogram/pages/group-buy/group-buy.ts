@@ -90,6 +90,10 @@ Component({
                         // 没有加入团队 只能创建团队
                     }
                 }
+            } else {
+                wx.switchTab({
+                    url: '/pages/my/my'
+                })
             }
         },
 
