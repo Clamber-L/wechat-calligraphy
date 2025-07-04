@@ -1,8 +1,8 @@
 <scroll-view scroll-y style="height: 100vh" class="container">
-    <view class="header-container">
+    <!-- <view class="header-container">
         <view class="header-item">今日报名人数:{{operationNum.todayNum}}人</view>
         <view class="header-item">总报名人数:{{operationNum.allNum}}人</view>
-    </view>
+    </view> -->
     <image src="{{operation.contents[0].imageUrl}}" mode="widthFix" class="poster-img" />
     <!-- 头像滚动区 -->
     <block wx:if="{{operationNum.buyUserList.length !== 0}}">
