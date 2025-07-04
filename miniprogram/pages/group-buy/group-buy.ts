@@ -60,6 +60,13 @@ Component({
                         title: '活动不存在或已经结束!'
                     })
                 }
+            } else {
+                toast({
+                    title: '登录状态过期'
+                })
+                wx.switchTab({
+                    url: '/pages/my/my'
+                })
             }
             await wx.hideLoading({})
         },
@@ -116,8 +123,9 @@ Component({
             console.log('share path:', path)
 
             return {
-                title: '赶紧买课，早买早享受，晚买享折扣',
-                imageUrl: '../../assets/avatar.png',
+                title: '东岸书法课',
+                imageUrl:
+                    'https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250704123020_397.jpg',
                 path: path
             }
         },
@@ -132,9 +140,10 @@ Component({
                 query = `fromUser=${localUserInfo.userId}`
             }
             return {
-                title: '帮我砍一刀',
+                title: '东岸书法课',
                 query: query,
-                imageUrl: '../../assets/avatar.png'
+                imageUrl:
+                    'https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250704123020_397.jpg'
             }
         },
 

@@ -21,6 +21,11 @@ instance.interceptors.response = <T>(response: BaseResult<T>) => {
     const data = response
 
     if (data.code != 200) {
+        if (data.code === 403) {
+            console.log('data code:', data.code)
+            toast({ title: '登录已过期', icon: 'error' })
+            return data
+        }
         toast({ title: response.message, icon: 'error' })
     }
 
