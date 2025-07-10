@@ -9,15 +9,8 @@ Component({
             value: [
                 {
                     to: '/pages/group-buy/group-buy',
-                    image: 'https://cdn.pixabay.com/photo/2024/08/31/06/24/river-9010602_1280.jpg'
-                },
-                {
-                    to: '/pages/group-buy/group-buy',
-                    image: 'https://cdn.pixabay.com/photo/2024/08/31/06/24/river-9010602_1280.jpg'
-                },
-                {
-                    to: '/pages/group-buy/group-buy',
-                    image: 'https://cdn.pixabay.com/photo/2024/08/31/06/24/river-9010602_1280.jpg'
+                    image:
+                        'https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250706093804_3.png'
                 }
             ]
         }

@@ -11,8 +11,9 @@ Page({
         pageSize: 3,
         showPopup: true, // 默认打开
         popupData: {
-            image: 'https://cdn.pixabay.com/photo/2020/02/23/19/41/lorem-4874474_960_720.jpg',
-            desc: '书法比赛火热进行中，点击查看详情！'
+            image:
+                'https://println-g1-carlos.oss-cn-qingdao.aliyuncs.com/wechat/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20250706093817_73.jpg',
+            desc: '书法课程报名中，点击查看详情！'
         },
         hasMore: true,
         isPreviewing: false

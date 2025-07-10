@@ -33,36 +33,36 @@ Component({
             const localUserInfo: UserInfo = getStorageSync('userInfo')
 
             // 获取活动信息 判断活动是否结束
-            if (localUserInfo) {
-                const operationResponse = await instance.get('applet/operation')
+            const operationResponse = await instance.get('applet/operation')
 
-                console.log('operationResponse:', operationResponse)
+            console.log('operationResponse:', operationResponse)
 
-                if (operationResponse.code === 200) {
+            if (operationResponse.code === 200) {
+                this.setData({
+                    operation: operationResponse.data
+                })
+                // 获取本次团购的人数
+                const userNumResponse = await instance.get(
+                    `applet/operation_user_num?operationId=${operationResponse.data.id}`
+                )
+
+                if (userNumResponse.code === 200) {
                     this.setData({
-                        operation: operationResponse.data
-                    })
-                    // 用户团购情况
-                    await this.userTeam(operationResponse.data.id)
-
-                    // 获取本次团购的人数
-                    const userNumResponse = await instance.get(
-                        `applet/operation_user_num?operationId=${operationResponse.data.id}`
-                    )
-
-                    if (userNumResponse.code === 200) {
-                        this.setData({
-                            operationNum: userNumResponse.data
-                        })
-                    }
-                } else {
-                    toast({
-                        title: '活动不存在或已经结束!'
+                        operationNum: userNumResponse.data
                     })
                 }
             } else {
                 toast({
-                    title: '登录状态过期'
+                    title: '活动不存在或已经结束!'
+                })
+            }
+
+            if (localUserInfo) {
+                // 用户团购情况
+                await this.userTeam(operationResponse.data.id)
+            } else {
+                toast({
+                    title: '未登录，部分功能受限'
                 })
                 wx.switchTab({
                     url: '/pages/my/my'
@@ -73,7 +73,7 @@ Component({
 
         async userTeam(operationId: string) {
             // 获取在本次团购活动中的团队信息
-            const teamResponse = await instance.get(`applet/team?operationId=${operationId}`)
+            const teamResponse: BaseResult<TeamResponse> = await instance.get(`applet/team?operationId=${operationId}`)
             console.log('teamResponse:', teamResponse)
 
             if (teamResponse.code === 200) {
@@ -195,7 +195,7 @@ Component({
             const userPayedResponse = await instance.get(`applet/user_pay?payedUserId=${this.data.fromUser}`)
             if (userPayedResponse.code !== 200) {
                 toast({
-                    title: '此用户的队伍还未创建,不能加入该团购!'
+                    title: '此用户的拼团还未创建,不能加入该团购!'
                 })
                 return
             }

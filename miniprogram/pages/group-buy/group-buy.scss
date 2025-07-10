@@ -110,7 +110,6 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: 25%;
         background: linear-gradient(135deg, #ffd194, #ffb347, #ff7f50);
         border-top-left-radius: 32rpx;
         border-top-right-radius: 32rpx;
@@ -143,7 +142,8 @@
         display: flex;
         justify-content: start;
         align-items: center;
-        gap: 24rpx; // 项之间的间距，可调
+        flex-flow: wrap;
+        gap: 15rpx; // 项之间的间距，可调
 
         .member-item {
             display: flex;
